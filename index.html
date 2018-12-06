@@ -35,6 +35,8 @@
   </div>
   <script>
 
+  var all_existing_chars = [" ","!","\"","#","$","%","&","'","(",")","*","+",",","-",".","/","0","1","2","3","4","5","6","7","8","9",":",";","<","=",">","?","@","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","[","\\","]","^","_","`","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","{","|","}","~","=== ARJUN-APRIL STEGANOGRAPHY MESSAGE END POINT ==="];
+
   function downloadURI(uri, name) {
     var link = document.createElement("a");
     link.download = name;
@@ -43,6 +45,12 @@
     link.click();
     document.body.removeChild(link);
     delete link;
+  }
+  function convertBase(number, initial_base, change_base) {
+    return (parseInt(number + '', initial_base).toString(change_base));
+  }
+  String.prototype.replaceAt=function(index, replacement) {
+    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
   }
 
   function encode(){
@@ -66,24 +74,87 @@
 
       var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 
-      var x = 0;
-      var y = 0;
+      var charIndex = 0;
 
-      var index = (y*imageData.width + x) * 4;
-      var red = imageData.data[index];
-      var green = imageData.data[index + 1];
-      var blue = imageData.data[index + 2];
-      var alpha = imageData.data[index + 3];
-      console.log([red, green, blue, alpha]);
-      var id = context.createImageData(1,1); // only do this once per page
-      var d = id.data;                        // only do this once per page
-      d[0] = 0;
-      d[1] = 0;
-      d[2] = 0;
-      d[3] = 0;
-      context.putImageData( id , x, y );
+      var messageCharArray = document.querySelector("div.encode textarea").value.split("");
+      messageCharArray.push("=== ARJUN-APRIL STEGANOGRAPHY MESSAGE END POINT ===");
+
+      messageCharArray.forEach(function(char, char_index){
+        var index = charIndex * 4;
+        var red = imageData.data[index].toString();
+        var green = imageData.data[index + 1].toString();
+        var blue = imageData.data[index + 2].toString();
+        var id = context.createImageData(1,1);
+        var d = id.data;
+
+        var charNum;
+        if(all_existing_chars.indexOf(char) > -1){
+          charNum = convertBase(all_existing_chars.indexOf(char), 10, 6);
+        }else{
+          charNum = convertBase(all_existing_chars.indexOf(" "), 10, 6);
+        }
+        if(charNum.length == 2){
+          charNum = "0" + charNum;
+        }else if(charNum.length == 1){
+          charNum = "00" + charNum;
+        }
+
+        d[0] = red.replaceAt(red.length - 1, charNum[0]);
+        d[1] = green.replaceAt(green.length - 1, charNum[1]);
+        d[2] = blue.replaceAt(blue.length - 1, charNum[2]);
+        d[3] = 255;
+        console.log([red,green,blue]);
+        console.log([d[0],d[1],d[2]]);
+        context.putImageData( id , charIndex % image.width, Math.floor(charIndex / image.width) );
+        charIndex += 1;
+      });
       downloadURI(canvas.toDataURL(), "result.png");
-    };
+    }
+  }
+  function decode(){
+    var image = new Image();
+
+    var reader = new FileReader();
+
+    reader.onload = function(e){
+      image.src = e.target.result;
+    }
+
+    reader.readAsDataURL(document.querySelector("#decode_upload").files[0]);
+
+    image.onload = function() {
+      var canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+
+      var context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0);
+
+      var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+      var charIndex = 0;
+      var status = true;
+
+      var result = "";
+
+      while(status){
+        var index = (charIndex) * 4;
+        var red = imageData.data[index].toString();
+        var green = imageData.data[index + 1].toString();
+        var blue = imageData.data[index + 2].toString();
+
+        var result_char_index = convertBase(red[red.length - 1] + green[green.length - 1] + blue[blue.length - 1], 6, 10);
+
+        if(result_char_index == all_existing_chars.length - 1){
+          status = false;
+        }else{
+          result += all_existing_chars[result_char_index];
+        }
+
+        charIndex += 1;
+      }
+      console.log(result);
+    }
   }
 
   </script>
