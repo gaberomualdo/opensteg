@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+body {
+  text-align: center;
+  background-color: #efefef;
+}
+div.container {
+  width: 400px;
+  background-color: #fefefe;
+  border: 1px solid #ccc;
+  border-top: 0;
+  border-bottom: 0;
+  box-sizing: border-box;
+  padding: 2.5rem;
+  min-height: 100vh;
+  display: inline-block;
+  text-align: left;
+}
+div.logo h1 {
+  font-size: 3rem;
+  line-height: 1.5;
+  text-align: center;
+  font-weight: 700;
+}
+div.logo p {
+  text-align: center;
+  font-size: 1rem;
+}
+div.logo {
+  display: block;
+  overflow: auto;
+  margin-bottom: 2rem;
+}
+div.encode h1, div.decode h1 {
+  font-size: 1.75rem;
+  line-height: 1.5;
+}
+div.encode, div.decode {
+  width: 100%;
+  display: block;
+  overflow: auto;
+  margin-bottom: 2rem;
+}
+div.encode *, div.decode * {
+  margin-bottom: 0.75rem;
+}
+div.file-upload {
+  display: block;
+  overflow: auto;
+  margin: 0;
+}
+div.encode button, div.decode button, div.encode textarea, .file-upload__label {
+  font-size: 1.125rem;
+  border: none;
+  background-color: transparent;
+  border: 2px solid #ccc;
+  outline: none;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  display: block;
+}
+div.encode textarea {
+  width: 100%;
+  resize: none;
+}
+
+
+.file-upload {
+  position: relative;
+}
+.file-upload__label {
+  display: block;
+  width: auto;
+  float: left;
+}
+.file-upload__input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 1;
+  width: 0;
+  height: 100%;
+  opacity: 0;
+}
