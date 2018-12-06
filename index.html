@@ -16,11 +16,12 @@
     </div>
     <div class="encode">
       <h1>Encode Image:</h1>
-      <textarea placeholder="Text to hide in image..."></textarea>
+      <textarea placeholder="Enter text to hide in image..." spellcheck="false" rows="10"></textarea>
       <div class="file-upload">
         <label for="encode_upload" class="file-upload__label">Upload Image to Encode</label>
-        <input onchange="encode(this);" id="encode_upload" class="file-upload__input" type="file" name="encode_upload" accept="image/gif, image/jpeg, image/png">
+        <input onchange="document.querySelector('div.encode button').removeAttribute('style');" id="encode_upload" class="file-upload__input" type="file" name="encode_upload" accept="image/gif, image/jpeg, image/png">
       </div>
+      <button style="display: none;" onclick="encode();">Download Encoded Image</button>
     </div>
     <div class="decode">
       <h1>Decode Image:</h1>
@@ -31,9 +32,43 @@
       <p></p>
     </div>
   </div>
+  <canvas id="myCanvas" width="578" height="200"/>
   <script>
 
-  
+  function encode(){
+    var image = new Image();
+
+    var reader = new FileReader();
+
+    reader.onload = function(e){
+      image.src = e.target.result;
+    }
+
+    reader.readAsDataURL(document.querySelector("#encode_upload").files[0]);
+
+    image.onload = function() {
+      var canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+
+      var context = canvas.getContext('2d');
+      context.drawImage(image, 0, 0);
+
+      var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+      // Now you can access pixel data from imageData.data.
+      // It's a one-dimensional array of RGBA values.
+      // Here's an example of how to get a pixel's color at (x,y)
+      var x = 0;
+      var y = 1200;
+      var index = (y*imageData.width + x) * 4;
+      var red = imageData.data[index];
+      var green = imageData.data[index + 1];
+      var blue = imageData.data[index + 2];
+      var alpha = imageData.data[index + 3];
+      console.log([red, green, blue, alpha]);
+    };
+  }
 
   </script>
 </body>

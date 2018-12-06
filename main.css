@@ -32,17 +32,17 @@ div.logo p {
 div.logo {
   display: block;
   overflow: auto;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 div.encode h1, div.decode h1 {
   font-size: 1.75rem;
-  line-height: 1.5;
+  line-height: 1;
 }
 div.encode, div.decode {
   width: 100%;
   display: block;
   overflow: auto;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 div.encode *, div.decode * {
   margin-bottom: 0.75rem;
@@ -52,7 +52,10 @@ div.file-upload {
   overflow: auto;
   margin: 0;
 }
-div.encode button, div.decode button, div.encode textarea, .file-upload__label {
+.file-upload__label, div.encode button {
+  cursor: pointer;
+}
+div.encode button, div.encode textarea, .file-upload__label {
   font-size: 1.125rem;
   border: none;
   background-color: transparent;
@@ -66,8 +69,21 @@ div.encode button, div.decode button, div.encode textarea, .file-upload__label {
 div.encode textarea {
   width: 100%;
   resize: none;
+  height: calc(2.5rem + 4px);
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  transition: height 0.5s;
 }
-
+div.encode textarea:focus {
+  height: calc(16rem + 4px);
+}
+div.encode textarea:focus, .file-upload__label:hover, .file-upload__label:active, div.encode button:hover, div.encode button:active {
+  border-color: #000;
+}
+.file-upload__label:hover, .file-upload__label:active, div.encode button:hover, div.encode button:active {
+  background-color: #000;
+  color: #fff;
+}
 
 .file-upload {
   position: relative;
