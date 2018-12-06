@@ -23,6 +23,7 @@
         <input onchange="document.querySelector('div.encode button').removeAttribute('style');" id="encode_upload" class="file-upload__input" type="file" name="encode_upload" accept="image/gif, image/jpeg, image/png">
       </div>
       <button style="display: none;" onclick="encode();">Download Encoded Image</button>
+      <p></p>
     </div>
     <div class="decode">
       <h1>Decode Image:</h1>
@@ -103,12 +104,12 @@
         d[1] = green.replaceAt(green.length - 1, charNum[1]);
         d[2] = blue.replaceAt(blue.length - 1, charNum[2]);
         d[3] = 255;
-        console.log([red,green,blue]);
-        console.log([d[0],d[1],d[2]]);
+        document.querySelector("div.encode p").innerText = charIndex + " / " + (messageCharArray.length);
         context.putImageData( id , charIndex % image.width, Math.floor(charIndex / image.width) );
         charIndex += 1;
       });
       downloadURI(canvas.toDataURL(), "result.png");
+      document.querySelector("div.encode p").innerText = "";
     }
   }
   function decode(){
