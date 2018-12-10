@@ -105,6 +105,7 @@
         d[2] = blue.replaceAt(blue.length - 1, charNum[2]);
         d[3] = 255;
         document.querySelector("div.encode p").innerText = charIndex + " / " + (messageCharArray.length);
+        console.log(charIndex + " / " + (messageCharArray.length));
         context.putImageData( id , charIndex % image.width, Math.floor(charIndex / image.width) );
         charIndex += 1;
       });

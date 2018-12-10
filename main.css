@@ -19,6 +19,12 @@ div.container {
   display: inline-block;
   text-align: left;
 }
+@media (max-width: 400px) {
+	div.container {
+		width: 100%;
+		padding: 1.5rem;
+	}
+}
 div.logo h1 {
   font-size: 3rem;
   line-height: 1.5;
